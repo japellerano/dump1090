@@ -235,10 +235,10 @@ struct stDF {
     uint64_t         llTimestamp;                // Timestamp at which the this packet was received
     uint32_t         addr;                       // Timestamp at which the this packet was received
     unsigned char    msg[MODES_LONG_MSG_BYTES];  // the binary
-} tDF;
+};
 
 // Program global state
-struct {                             // Internal state
+struct stModes {                             // Internal state
     pthread_t       reader_thread;
 
     pthread_mutex_t data_mutex;      // Mutex to synchronize buffer access
@@ -370,17 +370,18 @@ struct {                             // Internal state
 
     unsigned int stat_blocks_processed;
     unsigned int stat_blocks_dropped;
-} Modes;
+};
+extern struct stModes Modes; extern struct stDF tDF;
 
 // The struct we use to store information about a decoded message.
 struct modesMessage {
     // Generic fields
     unsigned char msg[MODES_LONG_MSG_BYTES];      // Binary message.
-    int           msgbits;                        // Number of bits in message 
+    int           msgbits;                        // Number of bits in message
     int           msgtype;                        // Downlink format #
     int           crcok;                          // True if CRC was valid
     uint32_t      crc;                            // Message CRC
-    int           correctedbits;                  // No. of bits corrected 
+    int           correctedbits;                  // No. of bits corrected
     char          corrected[MODES_MAX_BITERRORS]; // corrected bit positions
     uint32_t      addr;                           // ICAO Address from bytes 1 2 and 3
     int           phase_corrected;                // True if phase correction was applied
@@ -412,7 +413,7 @@ struct modesMessage {
 
     // Fields used by multiple message types.
     int  altitude;
-    int  unit; 
+    int  unit;
     int  bFlags;                // Flags related to fields in this structure
 };
 
